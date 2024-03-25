@@ -1,0 +1,37 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	font: inherit;
+}
+
+body {
+	position: relative;
+	min-height: 100dvh;
+	background-color: rgb(200, 200, 220);
+	overflow: hidden;
+}
+
+.ripple {
+	position: absolute;
+	width: 0px;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	/* border: 20px solid rgba(0, 0, 0, 0.1); */
+	box-shadow: 0 0 8px 10px rgba(0, 0, 0, 0.1),
+		inset 0 0 8px 10px rgba(0, 0, 0, 0.1);
+	transform: translate(-50%, -50%);
+	animation: ripple 1.5s linear 0s forwards;
+}
+
+@keyframes ripple {
+	100% {
+		opacity: 0;
+		width: 1000px;
+	}
+}
