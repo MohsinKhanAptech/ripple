@@ -11,14 +11,13 @@
 }
 
 .rippleContainer {
-	position: relative;
 	min-height: 100dvh;
 	background-color: rgb(245, 245, 245);
 	overflow: hidden;
 }
 
 .ripple {
-	position: absolute;
+	position: fixed;
 	width: 0px;
 	aspect-ratio: 1;
 	border-radius: 50%;
