@@ -1,13 +1,20 @@
-// get  window width and height
-let winHeight, winWidth, running;
+let winHeight, winWidth, running, mousePosX, mousePosY;
 let rippleContainer = document.querySelector(".rippleContainer");
 
+// get  window width and height
 const resizeObserver = new ResizeObserver((entries) => {
 	winHeight = entries[0].target.clientHeight;
 	winWidth = entries[0].target.clientWidth;
 });
 
 resizeObserver.observe(document.body);
+
+// get mouse location
+rippleContainer.onmousemove = function (e) {
+	mousePosX = e.clientX;
+	mousePosY = e.clientY;
+	// console.log(mousePosX + " " + mousePosY);
+};
 
 // get random number
 function getRandomInt(min, max) {
@@ -47,12 +54,12 @@ function placeRippleNode() {
 	let o1 = document.createElement("div");
 	o1.classList.add("ripple");
 
-	let x = getRandomInt(0, winHeight);
-	let y = getRandomInt(0, winWidth);
+	let x = getRandomInt(0, winWidth);
+	let y = getRandomInt(0, winHeight);
 
-	o1.style.top = x + "px";
-	o1.style.left = y + "px";
-	o1.style.animationDuration = getRandomInt(1000, 3000) + "ms";
+	o1.style.left = x + "px";
+	o1.style.top = y + "px";
+	o1.style.animationDuration = getRandomInt(1500, 3000) + "ms";
 
 	rippleContainer.appendChild(o1);
 }
@@ -81,7 +88,7 @@ function removeRippleNode() {
 }
 
 // start ripple remove function
-const removeRipple = setRandomInterval(removeRippleNode, 500, 500);
+const removeRipple = removeRippleNode();
 removeRipple.start();
 
 // start ripple add function
@@ -94,16 +101,19 @@ let Ripples = {
 		if (running === true) {
 			addRipple.stop();
 			removeRipple.stop();
+			playPauseIconChange();
 		} else {
 			addRipple.start();
 			removeRipple.start();
+			playPauseIconChange();
 		}
 	},
 	// function for start ripples
 	start: function () {
-		if (running !== true) {
+		if (running === false) {
 			addRipple.start();
 			removeRipple.start();
+			playPauseIconChange();
 		}
 	},
 	// function for stop ripples
@@ -111,6 +121,7 @@ let Ripples = {
 		if (running === true) {
 			addRipple.stop();
 			removeRipple.stop();
+			playPauseIconChange();
 		}
 	},
 };
@@ -119,15 +130,30 @@ let Ripples = {
 window.addEventListener("blur", Ripples.stop);
 window.addEventListener("focus", Ripples.start);
 
+// getting play pause buttons and their container
+let playPauseContainer = document.querySelector(".play-pause");
+let playPauseBtn = document.querySelectorAll(".play-pause > .icon");
+
 // pause ripples on click
-document.querySelector(".play-pause").addEventListener("click", Ripples.toggle);
+playPauseContainer.addEventListener("click", Ripples.toggle);
 
-//
-let pausePlayContainer = document.querySelector(".play-pause");
-let pausePlayBtn = document.querySelectorAll(".play-pause > .icon");
-
-pausePlayContainer.addEventListener("click", () => {
-	pausePlayBtn.forEach((btn) => {
+// change play pause button icons
+function playPauseIconChange() {
+	playPauseBtn.forEach((btn) => {
 		btn.classList.toggle("hide");
 	});
-});
+}
+
+// add ripple on click where mouse is
+rippleContainer.addEventListener("click", placeRippleNodeOnMouse);
+
+function placeRippleNodeOnMouse() {
+	let o1 = document.createElement("div");
+	o1.classList.add("ripple");
+
+	o1.style.left = mousePosX + "px";
+	o1.style.top = mousePosY + "px";
+	o1.style.animationDuration = getRandomInt(1000, 3000) + "ms";
+
+	rippleContainer.appendChild(o1);
+}
