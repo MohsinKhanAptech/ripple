@@ -27,7 +27,6 @@
 	top: 50%;
 	left: 75%;
 	translate: -50% -50%;
-	animation: ripple 5s ease-out forwards;
 }
 
 .ripple::before {
@@ -60,14 +59,9 @@
 	animation: ripple-after 5s ease-out forwards;
 }
 
-@keyframes ripple {
-	100% {
-		opacity: 0;
-	}
-}
-
 @keyframes ripple-before {
 	100% {
+		opacity: 0;
 		scale: 1;
 	}
 }
