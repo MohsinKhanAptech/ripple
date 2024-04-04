@@ -100,11 +100,11 @@ let Ripples = {
 	toggle: function () {
 		if (running === true) {
 			addRipple.stop();
-			removeRipple.stop();
+			// removeRipple.stop();
 			playPauseIconChange();
 		} else {
 			addRipple.start();
-			removeRipple.start();
+			// removeRipple.start();
 			playPauseIconChange();
 		}
 	},
@@ -112,7 +112,7 @@ let Ripples = {
 	start: function () {
 		if (running === false) {
 			addRipple.start();
-			removeRipple.start();
+			// removeRipple.start();
 			playPauseIconChange();
 		}
 	},
@@ -120,7 +120,7 @@ let Ripples = {
 	stop: function () {
 		if (running === true) {
 			addRipple.stop();
-			removeRipple.stop();
+			// removeRipple.stop();
 			playPauseIconChange();
 		}
 	},
