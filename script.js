@@ -1,4 +1,4 @@
-let winHeight, winWidth, running, mousePosX, mousePosY;
+let winHeight, winWidth, running, paused, mousePosX, mousePosY;
 let rippleContainer = document.querySelector(".rippleContainer");
 
 // get  window width and height
@@ -10,7 +10,7 @@ const resizeObserver = new ResizeObserver((entries) => {
 resizeObserver.observe(document.body);
 
 // get mouse location
-rippleContainer.onmousemove = function (e) {
+document.onmousemove = function (e) {
 	mousePosX = e.clientX;
 	mousePosY = e.clientY;
 	// console.log(mousePosX + " " + mousePosY);
@@ -24,8 +24,8 @@ function getRandomInt(min, max) {
 }
 
 // execute function at random intervals
-function setRandomInterval(intervalFunction, minDelay, maxDelay) {
-	let timeout;
+function setRangedInterval(intervalFunction, minDelay, maxDelay) {
+	let timeout, delay;
 
 	const runInterval = () => {
 		const timeoutFunction = () => {
@@ -33,18 +33,20 @@ function setRandomInterval(intervalFunction, minDelay, maxDelay) {
 			runInterval();
 		};
 
-		const delay = getRandomInt(minDelay, maxDelay);
+		if (minDelay === maxDelay) {
+			delay = minDelay;
+		} else {
+			delay = getRandomInt(minDelay, maxDelay);
+		}
 		timeout = setTimeout(timeoutFunction, delay);
 	};
 
 	return {
 		start() {
 			runInterval();
-			running = true;
 		},
 		stop() {
 			clearTimeout(timeout);
-			running = false;
 		},
 	};
 }
@@ -66,44 +68,32 @@ function placeRippleNode() {
 
 // remove extra ripple objects from dom so its not cluttered
 function removeRippleNode() {
-	let timeout;
-
-	const runInterval = () => {
-		const timeoutFunction = () => {
-			if (rippleContainer.childElementCount > 10) {
-				rippleContainer.removeChild(rippleContainer.firstChild);
-			}
-			runInterval();
-		};
-		timeout = setTimeout(timeoutFunction, 500);
-	};
-	return {
-		start() {
-			runInterval();
-		},
-		stop() {
-			clearTimeout(timeout);
-		},
-	};
+	if (rippleContainer.childElementCount > 10) {
+		rippleContainer.removeChild(rippleContainer.firstChild);
+	}
 }
 
-// start ripple remove function
-const removeRipple = removeRippleNode();
+// declare ripple add function
+const addRipple = setRangedInterval(placeRippleNode, 500, 1500);
+addRipple.start();
+running = true;
+paused = false;
+
+// declare ripple remove function
+const removeRipple = setRangedInterval(removeRippleNode, 500, 1500);
 removeRipple.start();
 
-// start ripple add function
-const addRipple = setRandomInterval(placeRippleNode, 500, 1500);
-addRipple.start();
-
-// function for toggle ripples
+// function to control ripples playback
 let Ripples = {
 	toggle: function () {
 		if (running === true) {
 			addRipple.stop();
+			running = false;
 			// removeRipple.stop();
 			playPauseIconChange();
 		} else {
 			addRipple.start();
+			running = true;
 			// removeRipple.start();
 			playPauseIconChange();
 		}
@@ -112,6 +102,7 @@ let Ripples = {
 	start: function () {
 		if (running === false) {
 			addRipple.start();
+			running = true;
 			// removeRipple.start();
 			playPauseIconChange();
 		}
@@ -120,22 +111,35 @@ let Ripples = {
 	stop: function () {
 		if (running === true) {
 			addRipple.stop();
+			running = false;
 			// removeRipple.stop();
 			playPauseIconChange();
 		}
 	},
 };
 
-// toggles ripples on window focus so it doesn't keep running in the background
-window.addEventListener("blur", Ripples.stop);
-window.addEventListener("focus", Ripples.start);
+// toggles ripples on window focus/unfocus so it doesn't keep running in the background
+// and if ripples were paused by user it doesn't start running when focused
+window.addEventListener("blur", () => {
+	Ripples.stop();
+	running = false;
+});
+window.addEventListener("focus", () => {
+	if (paused === false) {
+		Ripples.start();
+		running = true;
+	}
+});
 
 // getting play pause buttons and their container
 let playPauseContainer = document.querySelector(".play-pause");
 let playPauseBtn = document.querySelectorAll(".play-pause > .icon");
 
 // pause ripples on click
-playPauseContainer.addEventListener("click", Ripples.toggle);
+playPauseContainer.addEventListener("click", () => {
+	Ripples.toggle();
+	paused === false ? (paused = true) : (paused = false);
+});
 
 // change play pause button icons
 function playPauseIconChange() {
@@ -144,9 +148,10 @@ function playPauseIconChange() {
 	});
 }
 
-// add ripple on click where mouse is
-rippleContainer.addEventListener("click", placeRippleNodeOnMouse);
+// add ripple on mouse when clicked and dragged
+let dragged = 0;
 
+// function to place ripples where mouse is
 function placeRippleNodeOnMouse() {
 	let o1 = document.createElement("div");
 	o1.classList.add("ripple");
@@ -157,3 +162,28 @@ function placeRippleNodeOnMouse() {
 
 	rippleContainer.appendChild(o1);
 }
+
+// make function to place ripples on mouse at a 200ms~ interval
+const placeRippleNodeOnDrag = setRangedInterval(
+	placeRippleNodeOnMouse,
+	200,
+	200
+);
+
+// on mouse down place a ripple
+rippleContainer.addEventListener("mousedown", () => {
+	placeRippleNodeOnMouse();
+	dragged = 1;
+});
+// on mouse down and drag make ripples appear on mouse with intervals
+rippleContainer.addEventListener("mousemove", () => {
+	if (dragged === 1) {
+		placeRippleNodeOnDrag.start();
+		dragged++;
+	}
+});
+// on mouse up stop mouse ripples
+rippleContainer.addEventListener("mouseup", () => {
+	placeRippleNodeOnDrag.stop();
+	dragged = 0;
+});
