@@ -149,7 +149,6 @@ function playPauseIconChange() {
 }
 
 // add ripple on mouse when clicked and dragged
-let dragged = 0;
 
 // function to place ripples where mouse is
 function placeRippleNodeOnMouse() {
@@ -170,20 +169,17 @@ const placeRippleNodeOnDrag = setRangedInterval(
 	200
 );
 
-// on mouse down place a ripple
+// on mouse down place a ripple and when dragged
 rippleContainer.addEventListener("mousedown", () => {
+	let oldWinHeight = winHeight;
+	let oldWinWidth = winWidth;
 	placeRippleNodeOnMouse();
-	dragged = 1;
-});
-// on mouse down and drag make ripples appear on mouse with intervals
-rippleContainer.addEventListener("mousemove", () => {
-	if (dragged === 1) {
+	if (winHeight !== oldWinHeight && winWidth !== oldWinWidth) {
 		placeRippleNodeOnDrag.start();
-		dragged++;
 	}
 });
+
 // on mouse up stop mouse ripples
 rippleContainer.addEventListener("mouseup", () => {
 	placeRippleNodeOnDrag.stop();
-	dragged = 0;
 });
