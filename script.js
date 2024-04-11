@@ -1,5 +1,4 @@
 let winHeight, winWidth, running, paused, mousePosX, mousePosY;
-let rippleContainer = document.querySelector(".rippleContainer");
 
 // get  window width and height
 const resizeObserver = new ResizeObserver((entries) => {
@@ -52,6 +51,8 @@ function setRangedInterval(intervalFunction, minDelay, maxDelay) {
 }
 
 // place ripples in ripple container
+let rippleContainer = document.querySelector(".rippleContainer");
+
 function placeRippleNode() {
 	let o1 = document.createElement("div");
 	o1.classList.add("ripple");
@@ -174,11 +175,11 @@ rippleContainer.addEventListener("mousedown", () => {
 	let oldWinHeight = winHeight;
 	let oldWinWidth = winWidth;
 	placeRippleNodeOnMouse();
+	// if mouse position changes when clicked starts adding ripples after interval
 	if (winHeight !== oldWinHeight && winWidth !== oldWinWidth) {
 		placeRippleNodeOnDrag.start();
 	}
 });
-
 // on mouse up stop mouse ripples
 rippleContainer.addEventListener("mouseup", () => {
 	placeRippleNodeOnDrag.stop();
