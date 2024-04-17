@@ -51,7 +51,7 @@ function setRangedInterval(intervalFunction, minDelay, maxDelay) {
 }
 
 // place ripples in ripple container
-let rippleContainer = document.querySelector(".rippleContainer");
+let rippleContainer = document.querySelector(".ripple-container");
 
 function placeRippleNode() {
 	let o1 = document.createElement("div");
@@ -83,6 +83,41 @@ paused = false;
 // declare ripple remove function
 const removeRipple = setRangedInterval(removeRippleNode, 500, 1500);
 removeRipple.start();
+
+// getting play-pause & volume buttons and their container
+let playPauseContainer = document.querySelector(".play-pause");
+let playPauseBtn = document.querySelectorAll(".play-pause > .icon");
+let volumeContainer = document.querySelectorAll(".volume");
+let volumeBtn = document.querySelectorAll(".volume > .icon");
+
+// toggle class from array
+function arrayClassNameToggle(array, className) {
+	return () => {
+		array.forEach((obj) => {
+			obj.classList.toggle(className);
+		});
+	};
+}
+
+// change play pause button icons
+const playPauseIconChange = arrayClassNameToggle(playPauseBtn, "hide");
+
+// change volume button icons
+const volumeIconChange = arrayClassNameToggle(volumeBtn, "hide");
+
+//TODO: fix this up <
+let optionsMenu = document.querySelector(".options");
+function optionsMenuToggle() {
+	optionsMenu.classList.toggle("hide");
+}
+let doodoo = document.querySelectorAll(".option-header-menu > span");
+const poopoo = arrayClassNameToggle(doodoo, "option-selected");
+
+// pause ripples on click
+playPauseContainer.addEventListener("click", () => {
+	Ripples.toggle();
+	paused === false ? (paused = true) : (paused = false);
+});
 
 // function to control ripples playback
 let Ripples = {
@@ -132,24 +167,8 @@ window.addEventListener("focus", () => {
 	}
 });
 
-// getting play pause buttons and their container
-let playPauseContainer = document.querySelector(".play-pause");
-let playPauseBtn = document.querySelectorAll(".play-pause > .icon");
-
-// pause ripples on click
-playPauseContainer.addEventListener("click", () => {
-	Ripples.toggle();
-	paused === false ? (paused = true) : (paused = false);
-});
-
-// change play pause button icons
-function playPauseIconChange() {
-	playPauseBtn.forEach((btn) => {
-		btn.classList.toggle("hide");
-	});
-}
-
 // add ripple on mouse when clicked and dragged
+let dragged = 0;
 
 // function to place ripples where mouse is
 function placeRippleNodeOnMouse() {
@@ -170,17 +189,20 @@ const placeRippleNodeOnDrag = setRangedInterval(
 	200
 );
 
-// on mouse down place a ripple and when dragged
+// on mouse down place a ripple
 rippleContainer.addEventListener("mousedown", () => {
-	let oldWinHeight = winHeight;
-	let oldWinWidth = winWidth;
 	placeRippleNodeOnMouse();
-	// if mouse position changes when clicked starts adding ripples after interval
-	if (winHeight !== oldWinHeight && winWidth !== oldWinWidth) {
+	dragged = 1;
+});
+// on mouse down and drag make ripples appear on mouse with intervals
+rippleContainer.addEventListener("mousemove", () => {
+	if (dragged === 1) {
 		placeRippleNodeOnDrag.start();
+		dragged++;
 	}
 });
 // on mouse up stop mouse ripples
 rippleContainer.addEventListener("mouseup", () => {
 	placeRippleNodeOnDrag.stop();
+	dragged = 0;
 });

@@ -9,13 +9,39 @@
 		<script defer src="script.js"></script>
 	</head>
 	<body>
-		<div class="rippleContainer"></div>
+		<!-- TODO: move all the onclick() events to js -->
+		<div class="ripple-container"></div>
 		<div class="menu">
+			<span class="volume" onclick="volumeIconChange()">
+				<span type="button" class="icon volume-mute hide"></span>
+				<span type="button" class="icon volume-full"></span>
+			</span>
 			<span class="play-pause">
 				<span type="button" class="icon play hide"></span>
 				<span type="button" class="icon pause"></span>
 			</span>
-			<span type="button" class="icon cogwheel"></span>
+			<span
+				type="button"
+				onclick="optionsMenuToggle()"
+				class="icon cogwheel"
+			></span>
+		</div>
+		<div class="options hide">
+			<div class="option-header">
+				<div class="option-header-menu">
+					<span onclick="poopoo()" class="settings-header option-selected"
+						>Settings</span
+					>
+					<span onclick="poopoo()" class="audio-header">Audio</span>
+				</div>
+				<span
+					type="button"
+					onclick="optionsMenuToggle()"
+					class="icon option-close"
+				></span>
+			</div>
+			<div class="settings"></div>
+			<div class="audio"></div>
 		</div>
 	</body>
 </html>
