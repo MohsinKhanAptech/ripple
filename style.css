@@ -11,6 +11,7 @@ html {
 *::before,
 *::after {
 	box-sizing: border-box;
+	user-select: none;
 }
 
 * {
@@ -101,8 +102,9 @@ div.menu {
 
 .icon:hover {
 	opacity: 75%;
-	rotate: 360deg;
 	scale: 1.15;
+	rotate: 360deg;
+	/* check prefers-reduced-motion for more properties */
 }
 
 .cogwheel {
@@ -155,14 +157,16 @@ div.menu {
 	transform: scale(1);
 	transition: opacity 300ms, visibility 300ms, transform 300ms,
 		box-shadow 300ms 300ms;
+	transition-timing-function: cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
 .options.hide {
-	box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.1);
 	opacity: 0;
 	visibility: hidden;
 	display: block;
-	transform: scale(0);
+	transform: scale(0.75);
+	/* check prefers-reduced-motion for more properties */
 }
 
 .option-header {
@@ -175,34 +179,42 @@ div.menu {
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	font-size: 1.2rem;
+	font-size: 1.25rem;
 }
 
 .option-header-menu > *::after {
 	content: "";
 	display: block;
-	width: calc(100% + 4px);
+	width: 100%;
 	height: 4px;
-	background: linear-gradient(90deg, gray, lightgray);
+	margin-top: 2px;
+	background: linear-gradient(90deg, darkslategray, lightgray);
 	box-shadow: 1px 1px 2px -1px black;
 	border-radius: 4px;
-	translate: -2px;
 	transform: scaleX(0);
 	transform-origin: right;
 	transition: transform 300ms;
 }
 
-.option-header-menu > *:hover::after {
-	transform: scaleX(1);
-	transform-origin: left;
-}
-
+.option-header-menu > *:hover::after,
 .option-selected::after {
 	transform: scaleX(1);
+	transform-origin: left;
 }
 
 .option-close {
 	content: url(SVG/close-button.svg);
 	position: absolute;
 	right: 1rem;
+}
+
+/* --- for prefers-reduced-motion --- */
+
+@media (prefers-reduced-motion) {
+	.icon:hover {
+		rotate: 0deg;
+	}
+	.options.hide {
+		transform: scale(0.99);
+	}
 }
