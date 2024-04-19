@@ -84,11 +84,9 @@ paused = false;
 const removeRipple = setRangedInterval(removeRippleNode, 500, 1500);
 removeRipple.start();
 
-// getting play-pause & volume buttons and their container
+// getting play-pause buttons and their container
 let playPauseContainer = document.querySelector(".play-pause");
 let playPauseBtn = document.querySelectorAll(".play-pause > .icon");
-let volumeContainer = document.querySelectorAll(".volume");
-let volumeBtn = document.querySelectorAll(".volume > .icon");
 
 // toggle class from array
 function arrayClassNameToggle(array, className) {
@@ -101,17 +99,6 @@ function arrayClassNameToggle(array, className) {
 
 // change play pause button icons
 const playPauseIconChange = arrayClassNameToggle(playPauseBtn, "hide");
-
-// change volume button icons
-const volumeIconChange = arrayClassNameToggle(volumeBtn, "hide");
-
-//TODO: fix this up <
-let optionsMenu = document.querySelector(".options");
-function optionsMenuToggle() {
-	optionsMenu.classList.toggle("hide");
-}
-let doodoo = document.querySelectorAll(".option-header-menu > span");
-const poopoo = arrayClassNameToggle(doodoo, "option-selected");
 
 // pause ripples on click
 playPauseContainer.addEventListener("click", () => {
@@ -205,4 +192,58 @@ rippleContainer.addEventListener("mousemove", () => {
 rippleContainer.addEventListener("mouseup", () => {
 	placeRippleNodeOnDrag.stop();
 	dragged = 0;
+});
+
+// getting volume mute button & container
+let volumeContainer = document.querySelector(".volume-control");
+let volumeBtn = document.querySelectorAll(".volume-control > .icon");
+
+// function to change volume button icons
+const volumeIconChange = arrayClassNameToggle(volumeBtn, "hide");
+
+// declare audio
+const myAudio = new Audio(
+	"audio/After Rain — Zackross  Background Music  Audio Library Release.mp3"
+);
+
+// play audio
+myAudio.play();
+// set audio volume
+myAudio.volume = 0.05;
+
+// change volume icon and play/pause audio
+volumeContainer.addEventListener("click", () => {
+	volumeIconChange();
+	if (myAudio.paused === false) {
+		myAudio.pause();
+	} else {
+		myAudio.play();
+	}
+});
+
+// getting settings, settings-close btn and settings-menu elements
+let cogwheelBtn = document.querySelector(".cogwheel");
+let optionCloseBtn = document.querySelector(".option-close");
+let optionsMenu = document.querySelector(".options");
+
+// open/close settings menu function
+function optionsMenuToggle() {
+	optionsMenu.classList.toggle("hide");
+}
+
+// open/close settings menu when clicked
+cogwheelBtn.addEventListener("click", optionsMenuToggle);
+optionCloseBtn.addEventListener("click", optionsMenuToggle);
+
+let settingsHeader = document.querySelector(".settings-header");
+let audioHeader = document.querySelector(".audio-header");
+
+settingsHeader.addEventListener("click", () => {
+	settingsHeader.classList.add("option-selected");
+	audioHeader.classList.remove("option-selected");
+});
+
+audioHeader.addEventListener("click", () => {
+	audioHeader.classList.add("option-selected");
+	settingsHeader.classList.remove("option-selected");
 });
