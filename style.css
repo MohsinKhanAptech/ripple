@@ -297,6 +297,20 @@ input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 }
 
+/* responsive */
+
+@media screen and (max-width: 800px) {
+	.options {
+		width: 100vw;
+		height: 100vh;
+		border-radius: 0;
+	}
+
+	.options-container {
+		width: auto;
+	}
+}
+
 /* --- for prefers-reduced-motion --- */
 
 @media (prefers-reduced-motion) {
