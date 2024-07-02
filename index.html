@@ -7,37 +7,23 @@
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 		<link rel="stylesheet" href="style.css" />
 		<script defer src="script.js"></script>
-		<link
-			rel="preload"
-			href="SVG/volume-full-button.svg"
-			as="image"
-			type="image/svg+xml"
-		/>
-		<link
-			rel="preload"
-			href="SVG/volume-mute-button.svg"
-			as="image"
-			type="image/svg+xml"
-		/>
-		<link
-			rel="preload"
-			href="SVG/pause-button.svg"
-			as="image"
-			type="image/svg+xml"
-		/>
-		<link
-			rel="preload"
-			href="SVG/play-button.svg"
-			as="image"
-			type="image/svg+xml"
-		/>
+		<link rel="preload" href="SVG/volume-full-button.svg" as="image" type="image/svg+xml" />
+		<link rel="preload" href="SVG/volume-mute-button.svg" as="image" type="image/svg+xml" />
+		<link rel="preload" href="SVG/pause-button.svg" as="image" type="image/svg+xml" />
+		<link rel="preload" href="SVG/play-button.svg" as="image" type="image/svg+xml" />
+		<link rel="preload" href="SVG/sun.svg" as="image" type="image/svg+xml" />
+		<link rel="preload" href="SVG/moon.svg" as="image" type="image/svg+xml" />
 	</head>
 	<body>
 		<div class="ripple-container"></div>
 		<div class="menu">
+			<span class="theme-control">
+				<span type="button" class="icon sun hide"></span>
+				<span type="button" class="icon moon"></span>
+			</span>
 			<span class="volume-control">
-				<span type="button" class="icon volume-mute hide"></span>
 				<span type="button" class="icon volume-full"></span>
+				<span type="button" class="icon volume-mute hide"></span>
 			</span>
 			<span class="play-pause">
 				<span type="button" class="icon play hide"></span>
@@ -77,24 +63,8 @@
 					<div class="music-volume">
 						<label for="music-volume">Music Volume</label>
 						<div>
-							<input
-								type="range"
-								name="music-volume"
-								id="music-volume"
-								min="0"
-								max="100"
-								step="1"
-								value="5"
-							/>
-							<input
-								type="number"
-								name="music-volume"
-								id="music-volume"
-								min="0"
-								max="100"
-								step="1"
-								value="5"
-							/>
+							<input type="range" name="music-volume" id="music-volume" min="0" max="100" step="1" value="5" />
+							<input type="number" name="music-volume" id="music-volume" min="0" max="100" step="1" value="5" />
 						</div>
 					</div>
 				</div>
