@@ -4,4 +4,4 @@
 
 Just having fun making something.
 
-[CLICK HERE FOR DEMO.](https://mohsinkhanaptech.github.io/ripple/)
+[CLICK HERE FOR DEMO.](https://mohsinkhanaptech.github.io/ripple/dist/)
