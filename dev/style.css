@@ -2,12 +2,14 @@
   --theme-transition-duration: 500ms;
 }
 .light-theme {
+  --text-color-1: rgb(0, 0, 0);
   --bg-0: rgb(255, 255, 255);
   --bg-1: rgb(245, 245, 245);
   --ripple-color: rgba(0, 0, 0, 0.1);
   --icon-filter: invert(0%) drop-shadow(3px 5px 2px rgb(0 0 0 / 0.4));
 }
 .dark-theme {
+  --text-color-1: rgb(255, 255, 255);
   --bg-0: rgb(0, 0, 0);
   --bg-1: rgb(10, 10, 10);
   --ripple-color: rgba(255, 255, 255, 0.1);
@@ -36,6 +38,7 @@ html {
 }
 
 body {
+  color: var(--text-color-1);
   background-color: var(--bg-1);
   transition: background-color var(--theme-transition-duration);
 }
