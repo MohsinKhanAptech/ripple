@@ -1,22 +1,27 @@
 {
   "name": "ripple",
   "version": "1.0.0",
-  "description": "## About",
-  "homepage": "https://github.com/MohsinKhanAptech/ripple#readme",
-  "bugs": {
-    "url": "https://github.com/MohsinKhanAptech/ripple/issues"
+  "description": "Just having fun making something.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "live-server dev/; firefox http://127.0.0.1:8080/",
+    "dist": "live-server dist/; firefox http://127.0.0.1:8080/",
+    "build": "minify dev/index.html > dist/index.html; minify dev/style.css > dist/style.css; terser dev/script.js -cm > dist/script.js; svgo -f dev/SVG/ -o dist/SVG"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MohsinKhanAptech/ripple.git"
   },
-  "license": "ISC",
+  "keywords": [],
   "author": "",
+  "license": "ISC",
   "type": "commonjs",
-  "main": "script.js",
-  "scripts": {
-    "dev": "live-server dev/; firefox http://127.0.0.1:8080/",
-    "dist": "live-server dist/; firefox http://127.0.0.1:8080/",
-    "build": "minify dev/index.html > dist/index.html; minify dev/style.css > dist/style.css; terser dev/script.js -cm > dist/script.js; svgo -f dev/SVG/ -o dist/SVG"
+  "bugs": {
+    "url": "https://github.com/MohsinKhanAptech/ripple/issues"
+  },
+  "homepage": "https://github.com/MohsinKhanAptech/ripple#readme",
+  "devDependencies": {
+    "minify": "^13.0.0",
+    "tensor": "^0.1.0"
   }
 }
