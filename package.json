@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "live-server dev/; firefox http://127.0.0.1:8080/",
     "dist": "live-server dist/; firefox http://127.0.0.1:8080/",
-    "build": "minify dev/index.html > dist/index.html; minify dev/style.css > dist/style.css; terser dev/script.js -cm > dist/script.js; svgo -f dev/SVG/ -o dist/SVG"
+    "build": "minify dev/index.html > dist/index.html; minify dev/style.css > dist/style.css; terser dev/script.js -cm > dist/script.js"
   },
   "repository": {
     "type": "git",
